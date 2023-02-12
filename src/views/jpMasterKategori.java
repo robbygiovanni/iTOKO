@@ -31,7 +31,6 @@ public class jpMasterKategori extends javax.swing.JPanel {
         //System.out.println("test");
         dataTable();
         jTxtKode.setText(idGenerate());
-        
         jBtnUbah.setEnabled(false);
         jBtnHapus.setEnabled(false);
     }
@@ -39,23 +38,21 @@ public class jpMasterKategori extends javax.swing.JPanel {
     public void dataTable(){
         //Object[] row = {"Id Sales","Nama Sales","Alamat","No HP","Created_at","Updated_at"};
         //model = new DefaultTableModel(null, row);
-        ((DefaultTableModel)jTblSales.getModel()).setRowCount(0);
-        model = (DefaultTableModel)jTblSales.getModel() ;
+        ((DefaultTableModel)jTblKategori.getModel()).setRowCount(0);
+        model = (DefaultTableModel)jTblKategori.getModel() ;
         //jTblSales.setModel(model);
-        String query = "SELECT * FROM sales";
+        String query = "SELECT * FROM kategori";
         try{
             Connection con = koneksi.getConnection();
             stm = con.createStatement();
             ResultSet res = stm.executeQuery(query);
             while (res.next()){
-                String id_sales = res.getString("id_sales");
-                String nama_sales = res.getString("nama_sales");
-                String alamat_sales = res.getString("alamat_sales");
-                String nohp_sales = res.getString("nohp_sales");
+                String id_kategori = res.getString("id_kategori");
+                String nama_kategori = res.getString("nama_kategori");
                 String created_at = res.getString("created_at");
                 String updated_at = res.getString("updated_at");
                 
-                String[] data = {id_sales,nama_sales,alamat_sales,nohp_sales,created_at,updated_at};
+                String[] data = {id_kategori,nama_kategori,created_at,updated_at};
                 model.addRow(data);
             }
         } catch (Exception e){
@@ -77,7 +74,7 @@ public class jpMasterKategori extends javax.swing.JPanel {
     }
 
      public String idGenerate(){
-        String query = "SELECT COUNT(*) as ctr FROM sales";
+        String query = "SELECT COUNT(*) as ctr FROM kategori";
         
         try{
             Connection con = koneksi.getConnection();
@@ -87,15 +84,15 @@ public class jpMasterKategori extends javax.swing.JPanel {
             int ctr = res.getInt("ctr") + 1;
             
             if(ctr < 10){
-                return "SA0000" + Integer.toString(ctr);
+                return "KA0000" + Integer.toString(ctr);
             }else if(ctr < 100){
-                return "SA000" + Integer.toString(ctr);
+                return "KA000" + Integer.toString(ctr);
             }else if(ctr < 1000){
-                return "SA00" + Integer.toString(ctr);
+                return "KA00" + Integer.toString(ctr);
             }else if(ctr < 10000){
-                return "SA0" + Integer.toString(ctr);
+                return "KA0" + Integer.toString(ctr);
             }else{
-               return "SA" + Integer.toString(ctr);
+               return "KA" + Integer.toString(ctr);
             }
             
         } catch (Exception e){
@@ -121,9 +118,9 @@ public class jpMasterKategori extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jCbbFilterKeyword = new javax.swing.JComboBox<>();
         jTxtKeyword = new javax.swing.JTextField();
-        jBtnCari = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTblSales = new javax.swing.JTable();
+        jTblKategori = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1459, 600));
 
@@ -133,11 +130,6 @@ public class jpMasterKategori extends javax.swing.JPanel {
 
         jTxtKode.setEnabled(false);
         jTxtKode.setNextFocusableComponent(this);
-        jTxtKode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtKodeActionPerformed(evt);
-            }
-        });
 
         jBtnTambah.setText("Tambah");
         jBtnTambah.addActionListener(new java.awt.event.ActionListener() {
@@ -162,49 +154,51 @@ public class jpMasterKategori extends javax.swing.JPanel {
 
         jLabel4.setText("Cari berdasarkan :");
 
-        jCbbFilterKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCbbFilterKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id Kategori", "Nama Kategori" }));
 
-        jBtnCari.setText("Cari");
-        jBtnCari.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnCariActionPerformed(evt);
+        jTxtKeyword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTxtKeywordKeyReleased(evt);
             }
         });
 
-        jTblSales.setModel(new javax.swing.table.DefaultTableModel(
+        jTblKategori.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id Sales", "Nama Sales", "Alamat", "No HP", "Created_at", "Updated_at"
+                "Id Kategori", "Nama Kategori", "created_at", "updated_at"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTblSales.getTableHeader().setReorderingAllowed(false);
-        jTblSales.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTblKategori.getTableHeader().setReorderingAllowed(false);
+        jTblKategori.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTblSalesMouseClicked(evt);
+                jTblKategoriMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTblSales);
-        if (jTblSales.getColumnModel().getColumnCount() > 0) {
-            jTblSales.getColumnModel().getColumn(0).setMinWidth(0);
-            jTblSales.getColumnModel().getColumn(0).setMaxWidth(200);
+        jScrollPane1.setViewportView(jTblKategori);
+        if (jTblKategori.getColumnModel().getColumnCount() > 0) {
+            jTblKategori.getColumnModel().getColumn(0).setMinWidth(0);
+            jTblKategori.getColumnModel().getColumn(0).setMaxWidth(200);
         }
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setText("KATEGORI BARANG");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,18 +213,19 @@ public class jpMasterKategori extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jBtnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jBtnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
-                .addGap(23, 23, 23)
+                        .addComponent(jBtnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCbbFilterKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTxtKeyword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBtnCari)))
+                        .addComponent(jTxtKeyword))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
@@ -238,15 +233,17 @@ public class jpMasterKategori extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTxtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCbbFilterKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTxtKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jBtnCari))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTxtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jTxtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -254,24 +251,38 @@ public class jpMasterKategori extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBtnTambah)
                             .addComponent(jBtnUbah)
-                            .addComponent(jBtnHapus)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jBtnHapus))
+                        .addGap(0, 436, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTxtKodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtKodeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtKodeActionPerformed
-
     private void jBtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHapusActionPerformed
         // TODO add your handling code here:
+        int ok = JOptionPane.showConfirmDialog (null," Apakah Anda Yakin Ingin "
+            + "Menghapus Data","Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (ok==0){
+            Connection con = koneksi.getConnection();
+            try {
+                stm = con.createStatement();
+                String query = "UPDATE kategori SET status=-1 "
+                        + "WHERE id_kategori='" + jTxtKode.getText() + "'";
+
+                stm.executeUpdate(query);
+                JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
+
+                dataTable();
+                jTxtKode.setText(idGenerate());
+                clearTxt();
+            }
+             catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal Hapus Data", "Pesan", JOptionPane.WARNING_MESSAGE);
+                 System.out.println(e.getMessage());
+            }
+        }
         
     }//GEN-LAST:event_jBtnHapusActionPerformed
-
-    private void jBtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCariActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnCariActionPerformed
     
     private void jBtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTambahActionPerformed
         // TODO add your handling code here:
@@ -283,7 +294,7 @@ public class jpMasterKategori extends javax.swing.JPanel {
              }
              else{
                 stm = con.createStatement();
-                String query = "INSERT INTO sales(id_sales, nama_sales, alamat_sales, nohp_sales, status) "
+                String query = "INSERT INTO kategori(id_kategori, nama_kategori, status) "
                         + "VALUES('" + idGenerate() + "', "
                         + "'" + jTxtNama.getText() + "',0)";   
                 stm.executeUpdate(query);
@@ -304,65 +315,95 @@ public class jpMasterKategori extends javax.swing.JPanel {
             jBtnHapus.setEnabled(false);
             clearTxt();
             jTxtKode.setText(idGenerate());
-            //jTblSales.setRowSelectionInterval(-1, -1);
         }
     }//GEN-LAST:event_jBtnTambahActionPerformed
 
     private void jBtnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUbahActionPerformed
         // TODO add your handling code here:
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
-        Date date = new Date();  
-    
-        Connection con = koneksi.getConnection();
-        try {
-         if(jTxtNama.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Data ada yang Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
-         }
-         else{
-            stm = con.createStatement();
-            String query = "UPDATE sales SET nama_sales='" + jTxtNama.getText() + "', "
-                                        + "updated_at='" +  formatDate.format(date) + "' "
-                    + "WHERE id_sales='" + jTxtKode.getText() + "'";
-                      
-            stm.executeUpdate(query);
-            JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
-           
-            dataTable();
-            jTxtKode.setText(idGenerate());
-            clearTxt();
-            
-         }
-        }
-         catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal Ubah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
-             System.out.println(e.getMessage());
+        int ok = JOptionPane.showConfirmDialog (null," Apakah Anda Yakin Ingin "
+        + "Mengubah Data","Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (ok==0){
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
+            Date date = new Date();
+            Connection con = koneksi.getConnection();
+            try {
+             if(jTxtNama.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Data ada yang Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
+             }
+             else{
+                stm = con.createStatement();
+                String query = "UPDATE kategori SET nama_kategori='" + jTxtNama.getText() + "', "
+                                            + "updated_at='" +  formatDate.format(date) + "' "
+                        + "WHERE id_kategori='" + jTxtKode.getText() + "'";
+
+                stm.executeUpdate(query);
+                JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
+
+                dataTable();
+                jTxtKode.setText(idGenerate());
+                clearTxt();
+
+             }
+            }
+             catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal Ubah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
+                 System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_jBtnUbahActionPerformed
 
-    private void jTblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblSalesMouseClicked
+    private void jTblKategoriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblKategoriMouseClicked
         // TODO add your handling code here:
-        int idx = jTblSales.getSelectedRow();
+        int idx = jTblKategori.getSelectedRow();
         
         try {
-            String id_sales = model.getValueAt(idx, 0).toString();
-            String nama_sales = model.getValueAt(idx, 1).toString();
-            String alamat_sales = model.getValueAt(idx, 2).toString();
-            String nohp_sales = model.getValueAt(idx, 3).toString();
+            String id_kategori = model.getValueAt(idx, 0).toString();
+            String nama_kategori = model.getValueAt(idx, 1).toString();
             
-            jTxtKode.setText(id_sales);
-            jTxtNama.setText(nama_sales);
-    
+            jTxtKode.setText(id_kategori);
+            jTxtNama.setText(nama_kategori);
+            
             jBtnTambah.setText("Batal");
             jBtnUbah.setEnabled(true);
             jBtnHapus.setEnabled(true);
         } catch (Exception e) {
+            
         }
     
-    }//GEN-LAST:event_jTblSalesMouseClicked
+    }//GEN-LAST:event_jTblKategoriMouseClicked
+
+    private void jTxtKeywordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeywordKeyReleased
+        // TODO add your handling code here:
+        ((DefaultTableModel)jTblKategori.getModel()).setRowCount(0);
+        model = (DefaultTableModel)jTblKategori.getModel() ;
+        
+        String query = "SELECT * FROM kategori "; 
+        if( jCbbFilterKeyword.getItemAt(jCbbFilterKeyword.getSelectedIndex()).equals("Id Kategori")){
+            query += "WHERE id_kategori LIKE '%" + jTxtKeyword.getText() + "%'";
+        }else{
+            query += "WHERE nama_kategori LIKE '%" + jTxtKeyword.getText() + "%'";
+        }
+        try{
+            
+            Connection con = koneksi.getConnection();
+            stm = con.createStatement();
+            ResultSet res = stm.executeQuery(query);
+            while (res.next()){
+                String id_kategori = res.getString("id_kategori");
+                String nama_kategori = res.getString("nama_kategori");
+                String created_at = res.getString("created_at");
+                String updated_at = res.getString("updated_at");
+                
+                String[] data = {id_kategori,nama_kategori,created_at,updated_at};
+                model.addRow(data);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jTxtKeywordKeyReleased
 
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnCari;
     private javax.swing.JButton jBtnHapus;
     private javax.swing.JButton jBtnTambah;
     private javax.swing.JButton jBtnUbah;
@@ -370,8 +411,9 @@ public class jpMasterKategori extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTblSales;
+    private javax.swing.JTable jTblKategori;
     private javax.swing.JTextField jTxtKeyword;
     private javax.swing.JTextField jTxtKode;
     private javax.swing.JTextField jTxtNama;

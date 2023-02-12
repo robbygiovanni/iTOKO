@@ -33,9 +33,6 @@ public class jpMasterSales extends javax.swing.JPanel {
         jTxtKode.setText(idGenerate());
         jBtnUbah.setEnabled(false);
         jBtnHapus.setEnabled(false);
-        
-        
-        jCbbFilterKeyword.addItem("");
     }
     
     public void dataTable(){
@@ -131,6 +128,7 @@ public class jpMasterSales extends javax.swing.JPanel {
         jTxtKeyword = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblSales = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1459, 600));
 
@@ -144,11 +142,6 @@ public class jpMasterSales extends javax.swing.JPanel {
 
         jTxtKode.setEnabled(false);
         jTxtKode.setNextFocusableComponent(this);
-        jTxtKode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtKodeActionPerformed(evt);
-            }
-        });
 
         jTxtNama.setNextFocusableComponent(jTxtAlamat);
 
@@ -192,7 +185,7 @@ public class jpMasterSales extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Id Sales", "Nama Sales", "Alamat", "No HP", "Created_at", "Updated_at"
+                "Id Sales", "Nama Sales", "Alamat", "No HP", "created_at", "updated_at"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -215,6 +208,9 @@ public class jpMasterSales extends javax.swing.JPanel {
             jTblSales.getColumnModel().getColumn(0).setMaxWidth(200);
         }
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel6.setText("SALES");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -224,23 +220,28 @@ public class jpMasterSales extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel5))
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtNohp)
-                            .addComponent(jTxtAlamat)
-                            .addComponent(jTxtNama)
-                            .addComponent(jTxtKode)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBtnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jBtnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jBtnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel5))
+                                .addGap(25, 25, 25)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTxtNohp)
+                                    .addComponent(jTxtAlamat)
+                                    .addComponent(jTxtNama)
+                                    .addComponent(jTxtKode))))
+                        .addGap(23, 23, 23))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBtnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBtnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBtnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
-                .addGap(23, 23, 23)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
@@ -254,43 +255,68 @@ public class jpMasterSales extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTxtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCbbFilterKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCbbFilterKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTxtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel2)
+                            .addComponent(jTxtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTxtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jTxtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTxtNohp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtNohp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBtnTambah)
                             .addComponent(jBtnUbah)
-                            .addComponent(jBtnHapus)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jBtnHapus))
+                        .addGap(0, 796, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTxtKodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtKodeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtKodeActionPerformed
-
     private void jBtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHapusActionPerformed
         // TODO add your handling code here:
+        int ok = JOptionPane.showConfirmDialog (null," Apakah Anda Yakin Ingin "
+            + "Menghapus Data","Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (ok==0){
+            Connection con = koneksi.getConnection();
+            try {
+                stm = con.createStatement();
+                String query = "UPDATE sales SET status=-1 "
+                        + "WHERE id_sales='" + jTxtKode.getText() + "'";
+
+                stm.executeUpdate(query);
+                JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
+
+                dataTable();
+                jTxtKode.setText(idGenerate());
+                clearTxt();
+            }
+             catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal Hapus Data", "Pesan", JOptionPane.WARNING_MESSAGE);
+                 System.out.println(e.getMessage());
+            }
+        }
         
     }//GEN-LAST:event_jBtnHapusActionPerformed
     
@@ -335,36 +361,39 @@ public class jpMasterSales extends javax.swing.JPanel {
 
     private void jBtnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUbahActionPerformed
         // TODO add your handling code here:
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
-        Date date = new Date();  
-    
-        Connection con = koneksi.getConnection();
-        try {
-         if(jTxtNama.getText().equals("")||
-            jTxtAlamat.getText().equals("")||
-            jTxtNohp.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Data ada yang Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
-         }
-         else{
-            stm = con.createStatement();
-            String query = "UPDATE sales SET nama_sales='" + jTxtNama.getText() + "', "
-                                        + "alamat_sales='" +  jTxtAlamat.getText() +"', "
-                                        + "nohp_sales='" + jTxtNohp.getText()  + "', "
-                                        + "updated_at='" +  formatDate.format(date) + "' "
-                    + "WHERE id_sales='" + jTxtKode.getText() + "'";
-                      
-            stm.executeUpdate(query);
-            JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
-           
-            dataTable();
-            jTxtKode.setText(idGenerate());
-            clearTxt();
-            
-         }
-        }
-         catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal Ubah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
-             System.out.println(e.getMessage());
+        int ok = JOptionPane.showConfirmDialog (null," Apakah Anda Yakin Ingin "
+        + "Mengubah Data","Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (ok==0){
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
+            Date date = new Date();
+            Connection con = koneksi.getConnection();
+            try {
+             if(jTxtNama.getText().equals("")||
+                jTxtAlamat.getText().equals("")||
+                jTxtNohp.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Data ada yang Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
+             }
+             else{
+                stm = con.createStatement();
+                String query = "UPDATE sales SET nama_sales='" + jTxtNama.getText() + "', "
+                                            + "alamat_sales='" +  jTxtAlamat.getText() +"', "
+                                            + "nohp_sales='" + jTxtNohp.getText()  + "', "
+                                            + "updated_at='" +  formatDate.format(date) + "' "
+                        + "WHERE id_sales='" + jTxtKode.getText() + "'";
+
+                stm.executeUpdate(query);
+                JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
+
+                dataTable();
+                jTxtKode.setText(idGenerate());
+                clearTxt();
+
+             }
+            }
+             catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Gagal Ubah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
+                 System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_jBtnUbahActionPerformed
 
@@ -393,7 +422,7 @@ public class jpMasterSales extends javax.swing.JPanel {
 
     private void jTxtKeywordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeywordKeyReleased
         // TODO add your handling code here:
-         ((DefaultTableModel)jTblSales.getModel()).setRowCount(0);
+        ((DefaultTableModel)jTblSales.getModel()).setRowCount(0);
         model = (DefaultTableModel)jTblSales.getModel() ;
         
         String query = "SELECT * FROM sales "; 
@@ -434,6 +463,7 @@ public class jpMasterSales extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTblSales;
     private javax.swing.JTextField jTxtAlamat;

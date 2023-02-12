@@ -17,17 +17,22 @@ public class jfHome extends javax.swing.JFrame {
      * Creates new form jfHome
      */
     jpMasterSales jpMasterSales = new jpMasterSales();
-    
+    jpMasterKategori jpMasterKategori = new jpMasterKategori();
+    jpMasterBarang jpMasterBarang = new jpMasterBarang();
     public jfHome() {
         initComponents();
         
         jpMasterSales.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
         jPanelHome.add(jpMasterSales,BorderLayout.CENTER);
+        
+        jpMasterKategori.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
+        jPanelHome.add(jpMasterKategori,BorderLayout.CENTER);
+        
+        jpMasterBarang.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
+        jPanelHome.add(jpMasterBarang,BorderLayout.CENTER);
         //jPanelHome.revalidate();
-        //jpMasterSales.setVisible(false);
-        
-        
-        
+        jpMasterSales.setVisible(false);
+        jpMasterKategori.setVisible(false);
     }
 
     /**
@@ -124,10 +129,14 @@ public class jfHome extends javax.swing.JFrame {
         // TODO add your handling code here:
         //JOptionPane.showMessageDialog(null,"Test") ;
         jpMasterSales.setVisible(true);
+        jpMasterKategori.setVisible(false);
+        
     }//GEN-LAST:event_jMnuSalesActionPerformed
 
     private void jMnuKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuKategoriActionPerformed
         // TODO add your handling code here:
+        jpMasterKategori.setVisible(true);
+        jpMasterSales.setVisible(false);
     }//GEN-LAST:event_jMnuKategoriActionPerformed
 
     private void jMnuBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuBarangActionPerformed
