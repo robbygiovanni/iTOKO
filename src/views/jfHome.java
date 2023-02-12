@@ -21,19 +21,23 @@ public class jfHome extends javax.swing.JFrame {
     jpMasterBarang jpMasterBarang = new jpMasterBarang();
     public jfHome() {
         initComponents();
-        
+           
+          
         jpMasterSales.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
         jPanelHome.add(jpMasterSales,BorderLayout.CENTER);
-        
+      
         jpMasterKategori.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
         jPanelHome.add(jpMasterKategori,BorderLayout.CENTER);
         
         jpMasterBarang.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
         jPanelHome.add(jpMasterBarang,BorderLayout.CENTER);
+        
         //jPanelHome.revalidate();
         jpMasterSales.setVisible(false);
         jpMasterKategori.setVisible(false);
+        jpMasterBarang.setVisible(false);
     }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,6 +134,7 @@ public class jfHome extends javax.swing.JFrame {
         //JOptionPane.showMessageDialog(null,"Test") ;
         jpMasterSales.setVisible(true);
         jpMasterKategori.setVisible(false);
+        jpMasterBarang.setVisible(false);
         
     }//GEN-LAST:event_jMnuSalesActionPerformed
 
@@ -137,10 +142,17 @@ public class jfHome extends javax.swing.JFrame {
         // TODO add your handling code here:
         jpMasterKategori.setVisible(true);
         jpMasterSales.setVisible(false);
+        jpMasterBarang.setVisible(false);
     }//GEN-LAST:event_jMnuKategoriActionPerformed
 
     private void jMnuBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuBarangActionPerformed
         // TODO add your handling code here:
+     
+        jpMasterBarang.revalidate();
+        jpMasterBarang.validate();
+        jpMasterBarang.setVisible(true);
+        jpMasterSales.setVisible(false);
+        jpMasterKategori.setVisible(false);
     }//GEN-LAST:event_jMnuBarangActionPerformed
 
 
