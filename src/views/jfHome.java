@@ -19,10 +19,10 @@ public class jfHome extends javax.swing.JFrame {
     jpMasterSales jpMasterSales = new jpMasterSales();
     jpMasterKategori jpMasterKategori = new jpMasterKategori();
     jpMasterBarang jpMasterBarang = new jpMasterBarang();
+    
     public jfHome() {
         initComponents();
-           
-          
+        
         jpMasterSales.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
         jPanelHome.add(jpMasterSales,BorderLayout.CENTER);
       
@@ -31,11 +31,10 @@ public class jfHome extends javax.swing.JFrame {
         
         jpMasterBarang.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
         jPanelHome.add(jpMasterBarang,BorderLayout.CENTER);
-        
-        //jPanelHome.revalidate();
+     
         jpMasterSales.setVisible(false);
         jpMasterKategori.setVisible(false);
-        jpMasterBarang.setVisible(false);
+        //jpMasterBarang.setVisible(false);
     }
    
 
@@ -147,14 +146,16 @@ public class jfHome extends javax.swing.JFrame {
 
     private void jMnuBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuBarangActionPerformed
         // TODO add your handling code here:
-     
-        jpMasterBarang.revalidate();
-        jpMasterBarang.validate();
+        jpMasterBarang.dataTable("", "", "", "");
+        jpMasterBarang.dataTableInsertKategori("","");
+        jpMasterBarang.dataTableInsertSales("","");
+        jpMasterBarang.dataTableFilterKategori("","");
+        jpMasterBarang.dataTableFilterSales("","");
+        
         jpMasterBarang.setVisible(true);
         jpMasterSales.setVisible(false);
         jpMasterKategori.setVisible(false);
     }//GEN-LAST:event_jMnuBarangActionPerformed
-
 
     /**
      * @param args the command line arguments
