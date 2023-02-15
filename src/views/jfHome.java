@@ -19,6 +19,7 @@ public class jfHome extends javax.swing.JFrame {
     jpMasterSales jpMasterSales = new jpMasterSales();
     jpMasterKategori jpMasterKategori = new jpMasterKategori();
     jpMasterBarang jpMasterBarang = new jpMasterBarang();
+    jpNotaSales jpNotaSales = new jpNotaSales();
     
     public jfHome() {
         initComponents();
@@ -31,9 +32,13 @@ public class jfHome extends javax.swing.JFrame {
         
         jpMasterBarang.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
         jPanelHome.add(jpMasterBarang,BorderLayout.CENTER);
+        
+        jpNotaSales.setSize(jPanelHome.getWidth(),jPanelHome.getHeight());
+        jPanelHome.add(jpNotaSales,BorderLayout.CENTER);
      
         jpMasterSales.setVisible(false);
         jpMasterKategori.setVisible(false);
+        jpNotaSales.setVisible(false);
         //jpMasterBarang.setVisible(false);
     }
    
@@ -47,13 +52,17 @@ public class jfHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanelHome = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMnuMaster = new javax.swing.JMenu();
         jMnuSales = new javax.swing.JMenuItem();
         jMnuKategori = new javax.swing.JMenuItem();
         jMnuBarang = new javax.swing.JMenuItem();
-        jMnuList = new javax.swing.JMenu();
+        jMnuTransaksi = new javax.swing.JMenu();
+        jMenuTransNotaSales = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("iTOKO");
@@ -104,8 +113,22 @@ public class jfHome extends javax.swing.JFrame {
 
         jMenuBar1.add(jMnuMaster);
 
-        jMnuList.setText("List");
-        jMenuBar1.add(jMnuList);
+        jMnuTransaksi.setText("Transaksi");
+        jMnuTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuTransaksiActionPerformed(evt);
+            }
+        });
+
+        jMenuTransNotaSales.setText("Nota Sales");
+        jMenuTransNotaSales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuTransNotaSalesActionPerformed(evt);
+            }
+        });
+        jMnuTransaksi.add(jMenuTransNotaSales);
+
+        jMenuBar1.add(jMnuTransaksi);
 
         setJMenuBar(jMenuBar1);
 
@@ -134,6 +157,7 @@ public class jfHome extends javax.swing.JFrame {
         jpMasterSales.setVisible(true);
         jpMasterKategori.setVisible(false);
         jpMasterBarang.setVisible(false);
+        jpNotaSales.setVisible(false);
         
     }//GEN-LAST:event_jMnuSalesActionPerformed
 
@@ -142,6 +166,7 @@ public class jfHome extends javax.swing.JFrame {
         jpMasterKategori.setVisible(true);
         jpMasterSales.setVisible(false);
         jpMasterBarang.setVisible(false);
+        jpNotaSales.setVisible(false);
     }//GEN-LAST:event_jMnuKategoriActionPerformed
 
     private void jMnuBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuBarangActionPerformed
@@ -155,7 +180,21 @@ public class jfHome extends javax.swing.JFrame {
         jpMasterBarang.setVisible(true);
         jpMasterSales.setVisible(false);
         jpMasterKategori.setVisible(false);
+        jpNotaSales.setVisible(false);
     }//GEN-LAST:event_jMnuBarangActionPerformed
+
+    private void jMnuTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuTransaksiActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jMnuTransaksiActionPerformed
+
+    private void jMenuTransNotaSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTransNotaSalesActionPerformed
+        // TODO add your handling code here:
+        jpMasterKategori.setVisible(false);
+        jpMasterSales.setVisible(false);
+        jpMasterBarang.setVisible(false);
+        jpNotaSales.setVisible(true);
+    }//GEN-LAST:event_jMenuTransNotaSalesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,11 +236,13 @@ public class jfHome extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuTransNotaSales;
     private javax.swing.JMenuItem jMnuBarang;
     private javax.swing.JMenuItem jMnuKategori;
-    private javax.swing.JMenu jMnuList;
     private javax.swing.JMenu jMnuMaster;
     private javax.swing.JMenuItem jMnuSales;
+    private javax.swing.JMenu jMnuTransaksi;
     private javax.swing.JPanel jPanelHome;
     // End of variables declaration//GEN-END:variables
 }

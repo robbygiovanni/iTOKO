@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ROBBY
  */
-public class jpMasterSales extends javax.swing.JPanel {
+public class jpNotaSales extends javax.swing.JPanel {
 
     /**
      * Creates new form jpMasterSales
@@ -26,7 +26,7 @@ public class jpMasterSales extends javax.swing.JPanel {
     Statement stm;
     DefaultTableModel model;
     
-    public jpMasterSales() {
+    public jpNotaSales() {
         initComponents();
         //System.out.println("test");
         dataTable("","");
@@ -35,32 +35,32 @@ public class jpMasterSales extends javax.swing.JPanel {
         jBtnHapus.setEnabled(false);
     }
     
-    public void dataTable(String id_sales, String nama_sales){
-        ((DefaultTableModel)jTblSales.getModel()).setRowCount(0);
-        model = (DefaultTableModel)jTblSales.getModel() ;
-   
-        String query = "SELECT * FROM sales ";
+    public void dataTable(String id_kategori, String nama_kategori){
+        //Object[] row = {"Id Sales","Nama Sales","Alamat","No HP","Created_at","Updated_at"};
+        //model = new DefaultTableModel(null, row);
+        ((DefaultTableModel)jTblKategori.getModel()).setRowCount(0);
+        model = (DefaultTableModel)jTblKategori.getModel() ;
+        //jTblSales.setModel(model);
+        String query = "SELECT * FROM kategori ";
         
-        if(!id_sales.equals("")){
-            query += "WHERE id_sales LIKE '%" + jTxtKeyword.getText() + "%'";
+        if(!id_kategori.equals("")){
+            query += "WHERE id_kategori LIKE '%" + jTxtKeyword.getText() + "%'";
         }
         
-        if(!nama_sales.equals("")){
-            query += "WHERE nama_sales LIKE '%" + jTxtKeyword.getText() + "%'";
+        if(!nama_kategori.equals("")){
+            query += "WHERE nama_kategori LIKE '%" + jTxtKeyword.getText() + "%'";
         }
         try{
             Connection con = koneksi.getConnection();
             stm = con.createStatement();
             ResultSet res = stm.executeQuery(query);
             while (res.next()){
-                String res_id_sales = res.getString("id_sales");
-                String res_nama_sales = res.getString("nama_sales");
-                String res_alamat_sales = res.getString("alamat_sales");
-                String res_nohp_sales = res.getString("nohp_sales");
+                String res_id_kategori = res.getString("id_kategori");
+                String res_nama_kategori = res.getString("nama_kategori");
                 String res_created_at = res.getString("created_at");
                 String res_updated_at = res.getString("updated_at");
                 
-                String[] data = {res_id_sales,res_nama_sales,res_alamat_sales,res_nohp_sales,res_created_at,res_updated_at};
+                String[] data = {res_id_kategori,res_nama_kategori,res_created_at,res_updated_at};
                 model.addRow(data);
             }
         } catch (Exception e){
@@ -78,13 +78,11 @@ public class jpMasterSales extends javax.swing.JPanel {
     }
     
     public void clearTxt(){
-        jTxtNama.setText(null);
-        jTxtAlamat.setText(null);
-        jTxtNohp.setText(null);
+    
     }
 
      public String idGenerate(){
-        String query = "SELECT COUNT(*) as ctr FROM sales";
+        String query = "SELECT COUNT(*) as ctr FROM kategori";
         
         try{
             Connection con = koneksi.getConnection();
@@ -94,15 +92,15 @@ public class jpMasterSales extends javax.swing.JPanel {
             int ctr = res.getInt("ctr") + 1;
             
             if(ctr < 10){
-                return "SA0000" + Integer.toString(ctr);
+                return "KA0000" + Integer.toString(ctr);
             }else if(ctr < 100){
-                return "SA000" + Integer.toString(ctr);
+                return "KA000" + Integer.toString(ctr);
             }else if(ctr < 1000){
-                return "SA00" + Integer.toString(ctr);
+                return "KA00" + Integer.toString(ctr);
             }else if(ctr < 10000){
-                return "SA0" + Integer.toString(ctr);
+                return "KA0" + Integer.toString(ctr);
             }else{
-               return "SA" + Integer.toString(ctr);
+               return "KA" + Integer.toString(ctr);
             }
             
         } catch (Exception e){
@@ -118,14 +116,9 @@ public class jpMasterSales extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jTxtKode = new javax.swing.JTextField();
-        jTxtNama = new javax.swing.JTextField();
-        jTxtAlamat = new javax.swing.JTextField();
-        jTxtNohp = new javax.swing.JTextField();
         jBtnTambah = new javax.swing.JButton();
         jBtnUbah = new javax.swing.JButton();
         jBtnHapus = new javax.swing.JButton();
@@ -133,36 +126,33 @@ public class jpMasterSales extends javax.swing.JPanel {
         jCbbFilterKeyword = new javax.swing.JComboBox<>();
         jTxtKeyword = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTblSales = new javax.swing.JTable();
+        jTblKategori = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTblInsSales = new javax.swing.JTable();
+        jTxtKeyInsSales = new javax.swing.JTextField();
+        jCbbKeyInsSales = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jDateNota = new com.toedter.calendar.JDateChooser();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jDateNota1 = new com.toedter.calendar.JDateChooser();
 
         setPreferredSize(new java.awt.Dimension(1459, 600));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Alamat");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        jLabel2.setText("Tanggal Pelunasan");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
 
-        jLabel2.setText("Kode Sales");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
-
-        jLabel3.setText("Nama Sales");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
-
-        jLabel5.setText("No HP");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jLabel3.setText("Sales");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
 
         jTxtKode.setEnabled(false);
         jTxtKode.setNextFocusableComponent(this);
         add(jTxtKode, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 340, -1));
-
-        jTxtNama.setNextFocusableComponent(jTxtAlamat);
-        add(jTxtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 340, -1));
-
-        jTxtAlamat.setNextFocusableComponent(jTxtNohp);
-        add(jTxtAlamat, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 340, -1));
-
-        jTxtNohp.setNextFocusableComponent(jBtnHapus);
-        add(jTxtNohp, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 340, -1));
 
         jBtnTambah.setText("Tambah");
         jBtnTambah.addActionListener(new java.awt.event.ActionListener() {
@@ -170,15 +160,15 @@ public class jpMasterSales extends javax.swing.JPanel {
                 jBtnTambahActionPerformed(evt);
             }
         });
-        add(jBtnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, 100, -1));
+        add(jBtnTambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, 100, -1));
 
-        jBtnUbah.setText("Ubah");
+        jBtnUbah.setText("Lunas");
         jBtnUbah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnUbahActionPerformed(evt);
             }
         });
-        add(jBtnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 100, -1));
+        add(jBtnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 470, 100, -1));
 
         jBtnHapus.setText("Hapus");
         jBtnHapus.addActionListener(new java.awt.event.ActionListener() {
@@ -186,54 +176,103 @@ public class jpMasterSales extends javax.swing.JPanel {
                 jBtnHapusActionPerformed(evt);
             }
         });
-        add(jBtnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 100, -1));
+        add(jBtnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 470, 100, -1));
 
         jLabel4.setText("Cari berdasarkan :");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 30, -1, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, -1, -1));
 
-        jCbbFilterKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id Sales", "Nama Sales" }));
-        add(jCbbFilterKeyword, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 30, 170, -1));
+        jCbbFilterKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id Kategori", "Nama Kategori" }));
+        add(jCbbFilterKeyword, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 150, -1));
 
         jTxtKeyword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTxtKeywordKeyReleased(evt);
             }
         });
-        add(jTxtKeyword, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 30, 680, -1));
+        add(jTxtKeyword, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 30, 680, -1));
 
-        jTblSales.setModel(new javax.swing.table.DefaultTableModel(
+        jTblKategori.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id Sales", "Nama Sales", "Alamat", "No HP", "created_at", "updated_at"
+                "Id Kategori", "Nama Kategori", "created_at", "updated_at"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTblSales.getTableHeader().setReorderingAllowed(false);
-        jTblSales.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTblKategori.getTableHeader().setReorderingAllowed(false);
+        jTblKategori.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTblSalesMouseClicked(evt);
+                jTblKategoriMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTblSales);
-        if (jTblSales.getColumnModel().getColumnCount() > 0) {
-            jTblSales.getColumnModel().getColumn(0).setMinWidth(0);
-            jTblSales.getColumnModel().getColumn(0).setMaxWidth(200);
+        jScrollPane1.setViewportView(jTblKategori);
+        if (jTblKategori.getColumnModel().getColumnCount() > 0) {
+            jTblKategori.getColumnModel().getColumn(0).setMinWidth(0);
+            jTblKategori.getColumnModel().getColumn(0).setMaxWidth(200);
         }
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, 960, 690));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(493, 67, 950, 527));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel6.setText("SALES");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setText("NOTA SALES");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 17, -1, -1));
+
+        jTblInsSales.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id Sales", "Nama Sales"
+            }
+        ));
+        jTblInsSales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTblInsSalesMouseReleased(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTblInsSales);
+
+        add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 340, 170));
+
+        jTxtKeyInsSales.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTxtKeyInsSalesKeyReleased(evt);
+            }
+        });
+        add(jTxtKeyInsSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 230, -1));
+
+        jCbbKeyInsSales.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Sales", "Id Sales" }));
+        add(jCbbKeyInsSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 100, -1));
+
+        jLabel6.setText("Remark");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, -1));
+
+        jLabel7.setText("Kode Nota");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        jDateNota.setEnabled(false);
+        add(jDateNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 340, 340, -1));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 340, -1));
+
+        jLabel8.setText("Tanggal Nota");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+
+        jLabel9.setText("Tanggal Nota");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        add(jDateNota1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, 340, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHapusActionPerformed
@@ -244,8 +283,8 @@ public class jpMasterSales extends javax.swing.JPanel {
             Connection con = koneksi.getConnection();
             try {
                 stm = con.createStatement();
-                String query = "UPDATE sales SET status=-1 "
-                        + "WHERE id_sales='" + jTxtKode.getText() + "'";
+                String query = "UPDATE kategori SET status=-1 "
+                        + "WHERE id_kategori='" + jTxtKode.getText() + "'";
 
                 stm.executeUpdate(query);
                 JOptionPane.showMessageDialog(null, "Berhasil Hapus Data");
@@ -265,39 +304,13 @@ public class jpMasterSales extends javax.swing.JPanel {
     private void jBtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnTambahActionPerformed
         // TODO add your handling code here:
         if(jBtnTambah.getText().equals("Tambah")){
-            Connection con = koneksi.getConnection();
-            try {
-             if(jTxtNama.getText().equals("")||
-                jTxtAlamat.getText().equals("")||
-                jTxtNohp.getText().equals("")){
-                JOptionPane.showMessageDialog(this, "Data ada yang Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
-             }
-             else{
-                stm = con.createStatement();
-                String query = "INSERT INTO sales(id_sales, nama_sales, alamat_sales, nohp_sales, status) "
-                        + "VALUES('" + idGenerate() + "', "
-                        + "'" + jTxtNama.getText() + "', "
-                        + "'" + jTxtAlamat.getText() + "', "
-                        + "'" + jTxtNohp.getText() + "',0)";   
-                stm.executeUpdate(query);
-                JOptionPane.showMessageDialog(null, "Berhasil Tambah Data");
-                    
-                dataTable("","");
-                jTxtKode.setText(idGenerate());
-                clearTxt();
-             }
-            }
-             catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Gagal Tambah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
-                 System.out.println(e.getMessage());
-            }
+         
         }else{
             jBtnTambah.setText("Tambah");
             jBtnUbah.setEnabled(false);
             jBtnHapus.setEnabled(false);
             clearTxt();
             jTxtKode.setText(idGenerate());
-            //jTblSales.setRowSelectionInterval(-1, -1);
         }
     }//GEN-LAST:event_jBtnTambahActionPerformed
 
@@ -310,27 +323,7 @@ public class jpMasterSales extends javax.swing.JPanel {
             Date date = new Date();
             Connection con = koneksi.getConnection();
             try {
-             if(jTxtNama.getText().equals("")||
-                jTxtAlamat.getText().equals("")||
-                jTxtNohp.getText().equals("")){
-                JOptionPane.showMessageDialog(this, "Data ada yang Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
-             }
-             else{
-                stm = con.createStatement();
-                String query = "UPDATE sales SET nama_sales='" + jTxtNama.getText() + "', "
-                                            + "alamat_sales='" +  jTxtAlamat.getText() +"', "
-                                            + "nohp_sales='" + jTxtNohp.getText()  + "', "
-                                            + "updated_at='" +  formatDate.format(date) + "' "
-                        + "WHERE id_sales='" + jTxtKode.getText() + "'";
-
-                stm.executeUpdate(query);
-                JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
-
-                dataTable("","");
-                jTxtKode.setText(idGenerate());
-                clearTxt();
-
-             }
+           
             }
              catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Gagal Ubah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
@@ -339,37 +332,45 @@ public class jpMasterSales extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jBtnUbahActionPerformed
 
-    private void jTblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblSalesMouseClicked
+    private void jTblKategoriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblKategoriMouseClicked
         // TODO add your handling code here:
-        int idx = jTblSales.getSelectedRow();
+        int idx = jTblKategori.getSelectedRow();
         
         try {
-            String id_sales = model.getValueAt(idx, 0).toString();
-            String nama_sales = model.getValueAt(idx, 1).toString();
-            String alamat_sales = model.getValueAt(idx, 2).toString();
-            String nohp_sales = model.getValueAt(idx, 3).toString();
+            String id_kategori = model.getValueAt(idx, 0).toString();
+            String nama_kategori = model.getValueAt(idx, 1).toString();
             
-            jTxtKode.setText(id_sales);
-            jTxtNama.setText(nama_sales);
-            jTxtAlamat.setText(alamat_sales);
-            jTxtNohp.setText(nohp_sales);
+            jTxtKode.setText(id_kategori);
+//            jTxtNama.setText(nama_kategori);
             
             jBtnTambah.setText("Batal");
             jBtnUbah.setEnabled(true);
             jBtnHapus.setEnabled(true);
         } catch (Exception e) {
+            
         }
     
-    }//GEN-LAST:event_jTblSalesMouseClicked
+    }//GEN-LAST:event_jTblKategoriMouseClicked
 
     private void jTxtKeywordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeywordKeyReleased
         // TODO add your handling code here:
-        if( jCbbFilterKeyword.getItemAt(jCbbFilterKeyword.getSelectedIndex()).equals("Id Sales")){
+
+        if( jCbbFilterKeyword.getItemAt(jCbbFilterKeyword.getSelectedIndex()).equals("Id Kategori")){
             dataTable(jTxtKeyword.getText(), "");
         }else{
             dataTable("",jTxtKeyword.getText());
         }
     }//GEN-LAST:event_jTxtKeywordKeyReleased
+
+    private void jTblInsSalesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblInsSalesMouseReleased
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jTblInsSalesMouseReleased
+
+    private void jTxtKeyInsSalesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeyInsSalesKeyReleased
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_jTxtKeyInsSalesKeyReleased
 
      
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,18 +378,25 @@ public class jpMasterSales extends javax.swing.JPanel {
     private javax.swing.JButton jBtnTambah;
     private javax.swing.JButton jBtnUbah;
     private javax.swing.JComboBox<String> jCbbFilterKeyword;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> jCbbKeyInsSales;
+    private com.toedter.calendar.JDateChooser jDateNota;
+    private com.toedter.calendar.JDateChooser jDateNota1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTblSales;
-    private javax.swing.JTextField jTxtAlamat;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTblInsSales;
+    private javax.swing.JTable jTblKategori;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTxtKeyInsSales;
     private javax.swing.JTextField jTxtKeyword;
     private javax.swing.JTextField jTxtKode;
-    private javax.swing.JTextField jTxtNama;
-    private javax.swing.JTextField jTxtNohp;
     // End of variables declaration//GEN-END:variables
 }
