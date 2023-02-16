@@ -142,7 +142,7 @@ public class jpMasterSales extends javax.swing.JPanel {
         jLabel1.setText("Alamat");
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
 
-        jLabel2.setText("Kode Sales");
+        jLabel2.setText("Id Sales");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
         jLabel3.setText("Nama Sales");

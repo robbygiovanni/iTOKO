@@ -133,7 +133,7 @@ public class jpMasterKategori extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(1459, 600));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("Kode Kategori");
+        jLabel2.setText("Id Kategori");
         add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 70, -1, -1));
 
         jLabel3.setText("Nama Kategori");

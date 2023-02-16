@@ -425,7 +425,7 @@ public class jpMasterBarang extends javax.swing.JPanel {
         });
         add(jTxtKeyInsSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 110, -1));
 
-        jLabel10.setText("Kode Barang");
+        jLabel10.setText("Id Barang");
         add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         jCbbFilterKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Barang", "Id Barang" }));
