@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,6 +35,27 @@ public class jpMasterKategori extends javax.swing.JPanel {
         jTxtKode.setText(idGenerate());
         jBtnUbah.setEnabled(false);
         jBtnHapus.setEnabled(false);
+        
+        //VALUE CHANGE TABLE
+        jTblKategori.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+                int idx = jTblKategori.getSelectedRow();
+                try {
+                    String id_kategori = model.getValueAt(idx, 0).toString();
+                    String nama_kategori = model.getValueAt(idx, 1).toString();
+
+                    jTxtKode.setText(id_kategori);
+                    jTxtNama.setText(nama_kategori);
+
+                    jBtnTambah.setText("Batal");
+                    jBtnUbah.setEnabled(true);
+                    jBtnHapus.setEnabled(true);
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                }
+            }  
+        });
     }
     
     public void dataTable(String id_kategori, String nama_kategori){
@@ -198,11 +221,6 @@ public class jpMasterKategori extends javax.swing.JPanel {
             }
         });
         jTblKategori.getTableHeader().setReorderingAllowed(false);
-        jTblKategori.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTblKategoriMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTblKategori);
         if (jTblKategori.getColumnModel().getColumnCount() > 0) {
             jTblKategori.getColumnModel().getColumn(0).setMinWidth(0);
@@ -272,6 +290,7 @@ public class jpMasterKategori extends javax.swing.JPanel {
             jBtnUbah.setEnabled(false);
             jBtnHapus.setEnabled(false);
             clearTxt();
+            dataTable("", "");
             jTxtKode.setText(idGenerate());
         }
     }//GEN-LAST:event_jBtnTambahActionPerformed
@@ -309,26 +328,6 @@ public class jpMasterKategori extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jBtnUbahActionPerformed
-
-    private void jTblKategoriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblKategoriMouseClicked
-        // TODO add your handling code here:
-        int idx = jTblKategori.getSelectedRow();
-        
-        try {
-            String id_kategori = model.getValueAt(idx, 0).toString();
-            String nama_kategori = model.getValueAt(idx, 1).toString();
-            
-            jTxtKode.setText(id_kategori);
-            jTxtNama.setText(nama_kategori);
-            
-            jBtnTambah.setText("Batal");
-            jBtnUbah.setEnabled(true);
-            jBtnHapus.setEnabled(true);
-        } catch (Exception e) {
-            
-        }
-    
-    }//GEN-LAST:event_jTblKategoriMouseClicked
 
     private void jTxtKeywordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeywordKeyReleased
         // TODO add your handling code here:

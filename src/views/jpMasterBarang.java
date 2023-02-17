@@ -12,6 +12,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,6 +42,114 @@ public class jpMasterBarang extends javax.swing.JPanel {
         jTxtKode.setText(idGenerate());
         jBtnUbah.setEnabled(false);
         jBtnHapus.setEnabled(false);
+        
+        
+        //VALUE CHANGE TABLE
+        jTblInsKategori.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+                int idx = jTblInsKategori.getSelectedRow();
+                try {
+                    String nama_kategori = modelInsertKategori.getValueAt(idx, 1).toString();
+                    jTxtNamaKategori.setText(nama_kategori);
+
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                }
+                
+            }  
+        }); 
+        
+        jTblInsSales.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+               
+                int idx = jTblInsSales.getSelectedRow();
+                try {
+                    String nama_sales = modelInsertSales.getValueAt(idx, 1).toString();
+                    jTxtNamaSales.setText(nama_sales);
+
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                }
+            }  
+        }); 
+        
+        jTblFilKategori.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+               
+                int idx = jTblFilKategori.getSelectedRow();
+                try {
+                    String id_kategori = modelFilterKategori.getValueAt(idx, 0).toString();
+                    dataTable("",id_kategori,filterSales,"");
+
+                    filterKategori= id_kategori;
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                }
+            }  
+        }); 
+        
+        jTblFilSales.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+               
+                int idx = jTblFilSales.getSelectedRow();
+                try {
+                    String id_sales = modelFilterSales.getValueAt(idx, 0).toString();
+                    dataTable("",filterKategori,id_sales,"");
+
+                    filterSales = id_sales;
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                }
+            }  
+        }); 
+        
+        jTblBarang.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+                int idx = jTblBarang.getSelectedRow();
+                try {
+
+                    //GET ID SALES & ID KATEGORI
+                    String id_barang = model.getValueAt(idx, 0).toString();
+                    String query = "SELECT * FROM barang "
+                        + "WHERE id_barang ='" + id_barang +"'";
+
+                    Connection con = koneksi.getConnection();
+                    stm = con.createStatement();
+                    ResultSet res = stm.executeQuery(query);
+                    res.next();
+
+                    String id_kategori = res.getString("id_kategori");
+                    String id_sales = res.getString("id_sales");
+
+
+                    String nama_barang = model.getValueAt(idx, 1).toString();
+                    String nama_kategori = model.getValueAt(idx, 2).toString();
+                    String nama_sales = model.getValueAt(idx, 3).toString();
+                    String harga_pokok = model.getValueAt(idx, 4).toString();
+                    String harga_jual = model.getValueAt(idx, 5).toString();
+
+                    //SET jTXT
+                    jTxtKode.setText(id_barang);
+                    jTxtNamaKategori.setText(nama_kategori);
+                    jTxtNamaSales.setText(nama_sales);
+                    jTxtNamaBarang.setText(nama_barang);
+                    jTxtHargaPokok.setText(harga_pokok.replace(",", ""));
+                    jTxtHargaJual.setText(harga_jual.replace(",", ""));
+
+                    jBtnTambah.setText("Batal");
+                    jBtnUbah.setEnabled(true);
+                    jBtnHapus.setEnabled(true);
+
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                }
+            }  
+        }); 
     }
     
     public void dataTable(String id_barang, String id_kategori, String id_sales, String nama_barang){
@@ -58,6 +168,7 @@ public class jpMasterBarang extends javax.swing.JPanel {
            query +=  "AND   b.id_sales = '" + id_sales + "' ";
         }
         query += "AND   b.nama_barang LIKE '%" + nama_barang + "%' ";
+        query += "AND   b.id_barang LIKE '%" + id_barang + "%' ";
         
         try{
             Connection con = koneksi.getConnection();
@@ -294,11 +405,6 @@ public class jpMasterBarang extends javax.swing.JPanel {
             }
         });
         jTblBarang.getTableHeader().setReorderingAllowed(false);
-        jTblBarang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTblBarangMouseReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTblBarang);
         if (jTblBarang.getColumnModel().getColumnCount() > 0) {
             jTblBarang.getColumnModel().getColumn(0).setMinWidth(0);
@@ -319,11 +425,6 @@ public class jpMasterBarang extends javax.swing.JPanel {
                 "Id Sales", "Nama Sales"
             }
         ));
-        jTblInsSales.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTblInsSalesMouseReleased(evt);
-            }
-        });
         jScrollPane3.setViewportView(jTblInsSales);
 
         add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 220, 170));
@@ -342,11 +443,6 @@ public class jpMasterBarang extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        });
-        jTblInsKategori.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTblInsKategoriMouseReleased(evt);
             }
         });
         jScrollPane2.setViewportView(jTblInsKategori);
@@ -449,11 +545,6 @@ public class jpMasterBarang extends javax.swing.JPanel {
                 "Id Sales", "Nama Sales"
             }
         ));
-        jTblFilSales.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTblFilSalesMouseReleased(evt);
-            }
-        });
         jScrollPane4.setViewportView(jTblFilSales);
 
         add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 570, 220, 170));
@@ -480,11 +571,6 @@ public class jpMasterBarang extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        });
-        jTblFilKategori.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTblFilKategoriMouseReleased(evt);
             }
         });
         jScrollPane5.setViewportView(jTblFilKategori);
@@ -587,6 +673,9 @@ public class jpMasterBarang extends javax.swing.JPanel {
             jTxtKode.setText(idGenerate());
             dataTableInsertSales("","");
             dataTableInsertKategori("","");
+            dataTableFilterSales("","");
+            dataTableFilterKategori("","");
+            dataTable("","","","");
             jTxtNamaKategori.setText("");
             jTxtNamaSales.setText("");
         }
@@ -664,98 +753,6 @@ public class jpMasterBarang extends javax.swing.JPanel {
             dataTable("",filterKategori,filterSales, jTxtKeyword.getText());
         }
     }//GEN-LAST:event_jTxtKeywordKeyReleased
-
-    private void jTblInsSalesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblInsSalesMouseReleased
-        // TODO add your handling code here:
-        int idx = jTblInsSales.getSelectedRow();
-        try {
-            String nama_sales = modelInsertSales.getValueAt(idx, 1).toString();
-            jTxtNamaSales.setText(nama_sales);
-            
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_jTblInsSalesMouseReleased
-
-    private void jTblInsKategoriMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblInsKategoriMouseReleased
-        // TODO add your handling code here:
-       int idx = jTblInsKategori.getSelectedRow();
-        try {
-            String nama_kategori = modelInsertKategori.getValueAt(idx, 1).toString();
-            jTxtNamaKategori.setText(nama_kategori);
-            
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_jTblInsKategoriMouseReleased
-
-    private void jTblBarangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblBarangMouseReleased
-        // TODO add your handling code here:
-        int idx = jTblBarang.getSelectedRow();
-        try {
-            
-            //GET ID SALES & ID KATEGORI
-            String id_barang = model.getValueAt(idx, 0).toString();
-            String query = "SELECT * FROM barang "
-                + "WHERE id_barang ='" + id_barang +"'";
-            
-            Connection con = koneksi.getConnection();
-            stm = con.createStatement();
-            ResultSet res = stm.executeQuery(query);
-            res.next();
-
-            String id_kategori = res.getString("id_kategori");
-            String id_sales = res.getString("id_sales");
-            
-          
-            String nama_barang = model.getValueAt(idx, 1).toString();
-            String nama_kategori = model.getValueAt(idx, 2).toString();
-            String nama_sales = model.getValueAt(idx, 3).toString();
-            String harga_pokok = model.getValueAt(idx, 4).toString();
-            String harga_jual = model.getValueAt(idx, 5).toString();
-            
-            //SET jTXT
-            jTxtKode.setText(id_barang);
-            jTxtNamaKategori.setText(nama_kategori);
-            jTxtNamaSales.setText(nama_sales);
-            jTxtNamaBarang.setText(nama_barang);
-            jTxtHargaPokok.setText(harga_pokok.replace(",", ""));
-            jTxtHargaJual.setText(harga_jual.replace(",", ""));
-            
-            jBtnTambah.setText("Batal");
-            jBtnUbah.setEnabled(true);
-            jBtnHapus.setEnabled(true);
-            
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_jTblBarangMouseReleased
-
-    private void jTblFilSalesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblFilSalesMouseReleased
-        // TODO add your handling code here:
-        int idx = jTblFilSales.getSelectedRow();
-        try {
-            String id_sales = modelFilterSales.getValueAt(idx, 0).toString();
-            dataTable("",filterKategori,id_sales,"");
-            
-            filterSales = id_sales;
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_jTblFilSalesMouseReleased
-
-    private void jTblFilKategoriMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblFilKategoriMouseReleased
-        // TODO add your handling code here:
-        int idx = jTblFilKategori.getSelectedRow();
-        try {
-            String id_kategori = modelFilterKategori.getValueAt(idx, 0).toString();
-            dataTable("",id_kategori,filterSales,"");
-           
-            filterKategori= id_kategori;
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-    }//GEN-LAST:event_jTblFilKategoriMouseReleased
 
     private void jTxtKeyInsKategoriKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeyInsKategoriKeyReleased
         // TODO add your handling code here:

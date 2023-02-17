@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,6 +35,31 @@ public class jpMasterSales extends javax.swing.JPanel {
         jTxtKode.setText(idGenerate());
         jBtnUbah.setEnabled(false);
         jBtnHapus.setEnabled(false);
+        
+        //VALUE CHANGE TABLE
+        jTblSales.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+                int idx = jTblSales.getSelectedRow();
+                try {
+                    String id_sales = model.getValueAt(idx, 0).toString();
+                    String nama_sales = model.getValueAt(idx, 1).toString();
+                    String alamat_sales = model.getValueAt(idx, 2).toString();
+                    String nohp_sales = model.getValueAt(idx, 3).toString();
+
+                    jTxtKode.setText(id_sales);
+                    jTxtNama.setText(nama_sales);
+                    jTxtAlamat.setText(alamat_sales);
+                    jTxtNohp.setText(nohp_sales);
+
+                    jBtnTambah.setText("Batal");
+                    jBtnUbah.setEnabled(true);
+                    jBtnHapus.setEnabled(true);
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                }
+            }  
+        }); 
     }
     
     public void dataTable(String id_sales, String nama_sales){
@@ -65,15 +92,6 @@ public class jpMasterSales extends javax.swing.JPanel {
             }
         } catch (Exception e){
             e.printStackTrace();
-        }
-    }
-    
-    public void noTable(){
-        int row = model.getRowCount();
-        for (int i = 0; i < row; i++)
-        {
-            String nomor = String.valueOf(i+1);
-            model.setValueAt(nomor +".",i,0);
         }
     }
     
@@ -218,11 +236,6 @@ public class jpMasterSales extends javax.swing.JPanel {
             }
         });
         jTblSales.getTableHeader().setReorderingAllowed(false);
-        jTblSales.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTblSalesMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTblSales);
         if (jTblSales.getColumnModel().getColumnCount() > 0) {
             jTblSales.getColumnModel().getColumn(0).setMinWidth(0);
@@ -297,7 +310,7 @@ public class jpMasterSales extends javax.swing.JPanel {
             jBtnHapus.setEnabled(false);
             clearTxt();
             jTxtKode.setText(idGenerate());
-            //jTblSales.setRowSelectionInterval(-1, -1);
+            dataTable("","");
         }
     }//GEN-LAST:event_jBtnTambahActionPerformed
 
@@ -338,29 +351,6 @@ public class jpMasterSales extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jBtnUbahActionPerformed
-
-    private void jTblSalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblSalesMouseClicked
-        // TODO add your handling code here:
-        int idx = jTblSales.getSelectedRow();
-        
-        try {
-            String id_sales = model.getValueAt(idx, 0).toString();
-            String nama_sales = model.getValueAt(idx, 1).toString();
-            String alamat_sales = model.getValueAt(idx, 2).toString();
-            String nohp_sales = model.getValueAt(idx, 3).toString();
-            
-            jTxtKode.setText(id_sales);
-            jTxtNama.setText(nama_sales);
-            jTxtAlamat.setText(alamat_sales);
-            jTxtNohp.setText(nohp_sales);
-            
-            jBtnTambah.setText("Batal");
-            jBtnUbah.setEnabled(true);
-            jBtnHapus.setEnabled(true);
-        } catch (Exception e) {
-        }
-    
-    }//GEN-LAST:event_jTblSalesMouseClicked
 
     private void jTxtKeywordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeywordKeyReleased
         // TODO add your handling code here:

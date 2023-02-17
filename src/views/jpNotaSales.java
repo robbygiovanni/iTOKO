@@ -12,6 +12,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,9 +42,70 @@ public class jpNotaSales extends javax.swing.JPanel {
         jTxtKode.setText(idGenerate(""));
         jBtnLunas.setEnabled(false);
         jBtnHapus.setEnabled(false);
+        
+        
+        //VALUE CHANGE TABLE
+        jTblInsSales.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+                int idx = jTblInsSales.getSelectedRow();
+                try {
+                    String id_sales = modelInsertSales.getValueAt(idx, 0).toString();
+                    String nama_sales = modelInsertSales.getValueAt(idx, 1).toString();
+                    jTxtNamaSales.setText(nama_sales);
+                    jTxtKode.setText(idGenerate(id_sales));
+                }catch (Exception ex) {
+                    ex.getStackTrace();
+                }  
+            }  
+        }); 
+        
+        jTblNotaSales.getSelectionModel().addListSelectionListener(new ListSelectionListener() {  
+            public void valueChanged(ListSelectionEvent e) {  
+                //I want something to happen before the row change is triggered on the UI.  
+                int idx = jTblNotaSales.getSelectedRow();
+                try {
+
+                    String kode_nota = model.getValueAt(idx, 0).toString();
+                    String nama_sales = model.getValueAt(idx, 1).toString();
+                    String total = model.getValueAt(idx, 2).toString();
+
+                    if (model.getValueAt(idx, 3) != null){
+                        Date dateLunas = new SimpleDateFormat("dd/MM/yyyy").parse(model.getValueAt(idx, 3).toString());
+                         jDateLunas.setDate(dateLunas);
+                    }
+
+                    if (model.getValueAt(idx, 4) != null){
+                         String remark = model.getValueAt(idx, 4).toString();
+                        jTxtAreaRemark.setText(remark);
+                    }
+
+                    //SET jTXT
+                    jTxtKode.setText(kode_nota);
+                    jTxtNamaSales.setText(nama_sales);
+                    jTxtTotalNota.setText(total.replace(",", ""));
+                    
+                    jDateLunas.setEnabled(true);
+
+                    jBtnTambah.setText("Batal");
+                    jBtnLunas.setEnabled(true);
+                    jBtnHapus.setEnabled(true);
+
+                    //SET DISABLE FALSE
+                    jDateNota.setEnabled(false);
+                    jTxtKeyInsSales.setEnabled(false);
+                    jTblInsSales.setEnabled(false);
+                    
+
+                } catch (Exception ex) {
+                    ex.getStackTrace();
+                    System.out.println(ex.getMessage());
+                }
+            }  
+        }); 
     }
     
-    public void dataTable(String id_nota, String id_sales){
+    public void dataTable(String id_nota, String nama_sales){
         ((DefaultTableModel)jTblNotaSales.getModel()).setRowCount(0);
         model = (DefaultTableModel)jTblNotaSales.getModel() ;
   
@@ -111,10 +174,16 @@ public class jpNotaSales extends javax.swing.JPanel {
     }
 
      public String idGenerate(String id_sales){
+         
+        SimpleDateFormat formatDate = new SimpleDateFormat("ddMMyyyy");
+        String tangggal_nota1 = formatDate.format(jDateNota.getDate()).substring(0,4);
+        String tangggal_nota2 = formatDate.format(jDateNota.getDate()).substring(6,8);
+        
         String query = "SELECT COUNT(*) as ctr FROM notasales ";
        
         if (!id_sales.equals("")) {
-            query += "WHERE id_sales='" + id_sales + "'";
+            query += "WHERE id_sales='" + id_sales + "' "
+                   + "AND id_nota LIKE '%" +  tangggal_nota1 + "%' ";
         }else{
             return "XX";
         }
@@ -138,9 +207,7 @@ public class jpNotaSales extends javax.swing.JPanel {
 //               return "KA" + Integer.toString(ctr);
 //            }
 //            
-            SimpleDateFormat formatDate = new SimpleDateFormat("ddMMyyyy");
-            String tangggal_nota1 = formatDate.format(jDateNota.getDate()).substring(0,4);
-            String tangggal_nota2 = formatDate.format(jDateNota.getDate()).substring(6,8);
+         
             
             if (ctr < 10) {
                  return tangggal_nota1 + tangggal_nota2 + "_0" + String.valueOf(ctr);
@@ -229,7 +296,7 @@ public class jpNotaSales extends javax.swing.JPanel {
         jLabel4.setText("Cari berdasarkan :");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, -1, -1));
 
-        jCbbFilterKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id Kategori", "Nama Kategori" }));
+        jCbbFilterKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Sales", "Id Nota" }));
         add(jCbbFilterKeyword, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 150, -1));
 
         jTxtKeyword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -306,6 +373,7 @@ public class jpNotaSales extends javax.swing.JPanel {
         jLabel7.setText("Id Nota");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
+        jDateLunas.setDateFormatString("dd/MM/yyyy");
         jDateLunas.setEnabled(false);
         add(jDateLunas, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, 330, -1));
 
@@ -358,7 +426,7 @@ public class jpNotaSales extends javax.swing.JPanel {
             }
              catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Gagal Hapus Data", "Pesan", JOptionPane.WARNING_MESSAGE);
-                 System.out.println(e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
         
@@ -369,7 +437,7 @@ public class jpNotaSales extends javax.swing.JPanel {
         if(jBtnTambah.getText().equals("Tambah")){
             Connection con = koneksi.getConnection();
             try {  
-             if(jTxtNamaSales.getText().equals("")){
+             if(jTxtNamaSales.getText().equals("")||jTxtTotalNota.getText().equals("")){
                 JOptionPane.showMessageDialog(this, "Data ada yang Kosong", "Pesan", JOptionPane.ERROR_MESSAGE);
              }
              else{
@@ -392,7 +460,7 @@ public class jpNotaSales extends javax.swing.JPanel {
              catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Gagal Tambah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
                 e.getStackTrace();
-                 System.out.println(e.getMessage());
+                System.out.println(e.getMessage());
             }
             
         }else{
@@ -400,9 +468,13 @@ public class jpNotaSales extends javax.swing.JPanel {
             jBtnLunas.setEnabled(false);
             jBtnHapus.setEnabled(false);
             
+            jDateLunas.setEnabled(false);
+            
             jDateNota.setEnabled(true);
             jTxtKeyInsSales.setEnabled(true);
             jTblInsSales.setEnabled(true);
+            
+            dataTable("","");
             
             clearTxt();
         }
@@ -410,8 +482,8 @@ public class jpNotaSales extends javax.swing.JPanel {
 
     private void jBtnLunasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLunasActionPerformed
         // TODO add your handling code here:
-        int ok = JOptionPane.showConfirmDialog (null," Apakah Anda Yakin Ingin "
-        + "Mengubah Data","Konfirmasi", JOptionPane.YES_NO_OPTION);
+        int ok = JOptionPane.showConfirmDialog (null," Apakah Anda Yakin "
+        + "Sudah Lunas","Konfirmasi", JOptionPane.YES_NO_OPTION);
         if (ok==0){
             SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");  
             Date date = new Date();
@@ -423,10 +495,11 @@ public class jpNotaSales extends javax.swing.JPanel {
                 String query = "UPDATE notasales SET tanggal_pelunasan='" + formatDate.format(jDateLunas.getDate()) + "', ";
                 query +=  "remark=" +  jTxtAreaRemark.getText() + ", "
                         + "updated_at='" +  formatDate.format(date) + "' "
-                        + "WHERE id_barang='" + jTxtKode.getText() + "'";
+                        + "WHERE id_nota='" + jTxtKode.getText() + "' "
+                        + "AND id_sales='" + jTxtKode.getText() + "'" ; //GET ID SALES ?
                 
                 stm.executeUpdate(query);
-                JOptionPane.showMessageDialog(null, "Berhasil Ubah Data");
+                JOptionPane.showMessageDialog(null, "Berhasil melakukan Pelunasan");
                 
                 dataTable("", "");
                 clearTxt();
@@ -436,8 +509,8 @@ public class jpNotaSales extends javax.swing.JPanel {
                 jTblInsSales.setEnabled(true);
             }
              catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Gagal Ubah Data", "Pesan", JOptionPane.WARNING_MESSAGE);
-                 System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(this, "Gagal melakukan Pelunasan", "Pesan", JOptionPane.WARNING_MESSAGE);
+                System.out.println(e.getMessage());
             }
         }
     }//GEN-LAST:event_jBtnLunasActionPerformed
@@ -454,15 +527,6 @@ public class jpNotaSales extends javax.swing.JPanel {
 
     private void jTblInsSalesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblInsSalesMouseReleased
         // TODO add your handling code here:
-        int idx = jTblInsSales.getSelectedRow();
-        try {
-            String id_sales = modelInsertSales.getValueAt(idx, 0).toString();
-            String nama_sales = modelInsertSales.getValueAt(idx, 1).toString();
-            jTxtNamaSales.setText(nama_sales);
-            jTxtKode.setText(idGenerate(id_sales));
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
     }//GEN-LAST:event_jTblInsSalesMouseReleased
 
     private void jTxtKeyInsSalesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtKeyInsSalesKeyReleased
@@ -476,42 +540,6 @@ public class jpNotaSales extends javax.swing.JPanel {
 
     private void jTblNotaSalesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblNotaSalesMouseReleased
         // TODO add your handling code here:
-        
-        int idx = jTblNotaSales.getSelectedRow();
-        try {
-            
-            String kode_nota = model.getValueAt(idx, 0).toString();
-            String nama_sales = model.getValueAt(idx, 1).toString();
-            String total = model.getValueAt(idx, 2).toString();
-            
-            if (model.getValueAt(idx, 3) != null){
-                Date dateLunas = new SimpleDateFormat("dd/MM/yyyy").parse(model.getValueAt(idx, 3).toString());
-                 jDateLunas.setDate(dateLunas);
-            }
-            
-            if (model.getValueAt(idx, 4) != null){
-                 String remark = model.getValueAt(idx, 4).toString();
-                jTxtAreaRemark.setText(remark);
-            }
-            
-            //SET jTXT
-            jTxtKode.setText(kode_nota);
-            jTxtNamaSales.setText(nama_sales);
-            jTxtTotalNota.setText(total.replace(",", ""));
-            
-            jBtnTambah.setText("Batal");
-            jBtnLunas.setEnabled(true);
-            jBtnHapus.setEnabled(true);
-            
-            //SET DISABLE FALSE
-            jDateNota.setEnabled(false);
-            jTxtKeyInsSales.setEnabled(false);
-            jTblInsSales.setEnabled(false); //MASIH BISA DI KLIK
-            
-        } catch (Exception e) {
-            e.getStackTrace();
-            System.out.println(e.getMessage());
-        }
     }//GEN-LAST:event_jTblNotaSalesMouseReleased
 
     private void jDateNotaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateNotaPropertyChange

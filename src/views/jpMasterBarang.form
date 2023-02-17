@@ -139,9 +139,6 @@
               <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTblBarangMouseReleased"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -196,9 +193,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTblInsSalesMouseReleased"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -240,9 +234,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTblInsKategoriMouseReleased"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -545,9 +536,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTblFilSalesMouseReleased"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -604,9 +592,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTblFilKategoriMouseReleased"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
