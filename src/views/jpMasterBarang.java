@@ -126,7 +126,6 @@ public class jpMasterBarang extends javax.swing.JPanel {
                     String id_kategori = res.getString("id_kategori");
                     String id_sales = res.getString("id_sales");
 
-
                     String nama_barang = model.getValueAt(idx, 1).toString();
                     String nama_kategori = model.getValueAt(idx, 2).toString();
                     String nama_sales = model.getValueAt(idx, 3).toString();
@@ -141,9 +140,10 @@ public class jpMasterBarang extends javax.swing.JPanel {
                     jTxtHargaPokok.setText(harga_pokok.replace(",", ""));
                     jTxtHargaJual.setText(harga_jual.replace(",", ""));
 
-                    jBtnTambah.setText("Batal");
+                    jBtnTambah.setText("X Batal");
                     jBtnUbah.setEnabled(true);
                     jBtnHapus.setEnabled(true);
+                    
 
                 } catch (Exception ex) {
                     ex.getStackTrace();
@@ -378,7 +378,7 @@ public class jpMasterBarang extends javax.swing.JPanel {
         jLabel4.setText("Cari berdasarkan :");
         add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, -1, 20));
 
-        jCbbKeyInsKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Kategori", "Id Kategori", " " }));
+        jCbbKeyInsKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nama Kategori", "Id Kategori" }));
         add(jCbbKeyInsKategori, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 100, -1));
 
         jTxtKeyword.addKeyListener(new java.awt.event.KeyAdapter() {
